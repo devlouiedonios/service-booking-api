@@ -1,0 +1,3 @@
+interface VerifiedToken {
+  userId: string;
+}

@@ -1,0 +1,67 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url = env("DATABASE_URL")
+}
+
+model User {
+    id String @id @default(uuid())
+    name String
+    email String @unique
+    passwordHash String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    refreshTokens RefreshToken?
+}
+
+model RefreshToken {
+    userId String @id
+    hashedToken String
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+    id String @id @default(uuid())
+    name String
+    mobileNumber String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    properties Property[]
+}
+
+model Property {
+    id String @id @default(uuid())
+    customerId String
+    type String
+    addressLine1 String
+    addressLine2 String?
+    suburb String
+    state String
+    postalCode String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+    bookings Booking[]
+}
+
+model Booking {
+    id String @id @default(uuid())
+    propertyId String
+    service String
+    preferredDate String
+    preferredTime String
+    status String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
