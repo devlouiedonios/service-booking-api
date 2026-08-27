@@ -4,16 +4,18 @@ A production-style REST API for managing service bookings, built with TypeScript
 
 The project demonstrates a layered backend architecture, authentication for web and mobile clients, persistent relational data, request validation, error handling, and automated testing.
 
+The current application models a single Business Admin account responsible for managing bookings. Multi-user administration, role-based access control, and multi-tenant support are outside the current scope.
+
 ## Features
 
 ### Authentication
 
-- User registration
+- Business Admin registration
 - Login and logout
 - Access and refresh tokens
 - Refresh token rotation
 - Password hashing with bcrypt
-- Retrieve the currently authenticated user
+- Retrieve the currently authenticated Business Admin
 - Web authentication using HttpOnly cookies
 - Mobile authentication using Bearer tokens
 - Protected endpoints through authentication middleware
@@ -114,6 +116,8 @@ prisma/
 
 The API supports both web and mobile authentication strategies.
 
+The authenticated identity represents the Business Admin responsible for managing bookings. The current application does not implement multiple administrators, roles, or permissions.
+
 ### Web
 
 Authentication tokens are stored in HttpOnly cookies so they are not directly accessible through client-side JavaScript.
@@ -148,7 +152,7 @@ X-Client-Platform: mobile
 
 | Method | Endpoint         | Description                 |
 | ------ | ---------------- | --------------------------- |
-| `POST` | `/auth/register` | Register a user             |
+| `POST` | `/auth/register` | Register the Business Admin |
 | `POST` | `/auth/login`    | Authenticate a user         |
 | `POST` | `/auth/refresh`  | Refresh authentication      |
 | `POST` | `/auth/logout`   | Logout                      |
